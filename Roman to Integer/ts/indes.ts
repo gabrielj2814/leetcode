@@ -1,5 +1,4 @@
 function romanToInt(s: string): number {
-    // TODO: falta que puedas hacer la resta entre las letras teniendo en cuanta la letra anterior
     const numerosRomanos:any ={
         I:             1,
         V:             5,
@@ -20,12 +19,20 @@ function romanToInt(s: string): number {
     let listaLetrasOjito:string[] = ["V","X","L","C","D","M",] 
     let numeros:number[] = []
     let letraAnterior:string = ""
-    for (let index = 0; index < s.length; index++) {
+    for (let index:number = 0; index < s.length; index++) {
         const letra = s[index];
         if(letraAnterior!==""){
-            let ultimaPosicionLista = numeros.length -1
+            let ultimaPosicionLista:number = numeros.length -1
             if(letra===letraAnterior){
                 numeros[ultimaPosicionLista] = numeros[ultimaPosicionLista] + numerosRomanos[letra]
+            }
+            if(letra!==letraAnterior){
+                if(referenciaLetras[letra]===letraAnterior){
+                    numeros[ultimaPosicionLista] = numerosRomanos[letra] - numeros[ultimaPosicionLista]
+                }
+                else{
+                    numeros.push(numerosRomanos[letra])
+                }
             }
         }
         else{
@@ -33,8 +40,11 @@ function romanToInt(s: string): number {
         }
         letraAnterior=letra
     }
-    console.log(numeros)
-    return 1
+    let acumulador:number = 0
+    for (let constador:number = 0; constador < numeros.length; constador++) {
+        acumulador=acumulador+numeros[constador]
+    }
+    return acumulador
 };
 
 let s:string = "MCMXCIV"
